@@ -1,4 +1,4 @@
-data/*
-result/*
+data/**
+result/**
 src/__pycache__
 src/re_output.py
