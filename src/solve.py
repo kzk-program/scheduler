@@ -9,17 +9,17 @@ from output import output_schedule, output_members_schedule
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))
-data_path = os.path.join(parent_dir, "data", "bands_form_v3.csv")
-result_dir = os.path.join(parent_dir, "result", "ol_v13")
+data_path = os.path.join(parent_dir, "data", "sample.csv")
+result_dir = os.path.join(parent_dir, "result", "sample")
 os.makedirs(result_dir, exist_ok=True)
 
 
 mb_manager = MemberBandManager()
 
-column_band_name = 3
-columns_possible_schedules = list(range(31,95))
-columns_members = [5,7,9,11,13, 15, 17,19,21]
-columns_info = list(range(1,25))
+column_band_name = 2
+columns_possible_schedules = list(range(9,14))
+columns_members = list(range(3,8))
+columns_info = [2,1,3,4,5,6,7]
 
 bands_parser(data_path, mb_manager, column_band_name, columns_possible_schedules, columns_members, columns_info)
 

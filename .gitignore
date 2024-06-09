@@ -1,6 +1,6 @@
 /data/*
-!/data/.gitkeep
+!/data/sample.csv
 /result/*
-!/result/.gitkeep
+!/result/sample/
 /src/__pycache__
 /src/re_output.py
