@@ -1,6 +1,6 @@
-時刻,バンド名,メールアドレス,メンバー1,メンバー2,メンバー3,メンバー4,メンバー5
-枠1,バンド1,sample1@example.com,ア,イ,ウ,エ,オ
-枠2,バンド4,sample4@example.com,チ,ツ,テ,ト,ナ
-枠3,バンド2,sample2@example.com,ア,イ,キ,ク,ケ
-枠4,バンド5,sample5@example.com,ウ,エ,ヌ,ネ,ノ
-枠5,バンド3,sample3@example.com,イ,サ,シ,セ,ソ
+時刻,バンド名,メールアドレス,メンバー1,メンバー2,メンバー3,メンバー4,メンバー5,備考
+枠1,バンド1,sample1@example.com,ア,イ,ウ,エ,オ,いえーい
+枠2,バンド4,sample4@example.com,チ,ツ,テ,ト,ナ,
+枠3,バンド2,sample2@example.com,ア,イ,キ,ク,ケ,
+枠4,バンド5,sample5@example.com,ウ,エ,ヌ,ネ,ノ,
+枠5,バンド3,sample3@example.com,イ,サ,シ,セ,ソ,

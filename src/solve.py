@@ -19,7 +19,7 @@ mb_manager = MemberBandManager()
 column_band_name = 2
 columns_possible_schedules = list(range(9,14))
 columns_members = list(range(3,8))
-columns_info = [2,1,3,4,5,6,7]
+columns_info = [2,1,3,4,5,6,7,14]
 
 bands_parser(data_path, mb_manager, column_band_name, columns_possible_schedules, columns_members, columns_info)
 
