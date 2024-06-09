@@ -1,4 +1,6 @@
-data/**
-result/**
-src/__pycache__
-src/re_output.py
+/data/*
+!/data/.gitkeep
+/result/*
+!/result/.gitkeep
+/src/__pycache__
+/src/re_output.py
