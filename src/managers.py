@@ -1,5 +1,7 @@
 from typing import Type, List, Union
 import pandas as pd
+import Levenshtein
+import itertools
 
 # メンバー、バンド、タイムスケジュールの枠を管理するクラスを作る
 class Member:
@@ -100,3 +102,10 @@ class MemberBandManager:
         if member1 is member2:
           same_members.append(member1)
     return same_members
+  
+  def simliar_member_name(self) -> List[str]:
+    simliar_members = []
+    for member1, member2 in itertools.combinations(self.members, 2):
+      if Levenshtein.distance(member1.name, member2.name) <= 2:
+        simliar_members.append((member1.name, member2.name))
+    return simliar_members
