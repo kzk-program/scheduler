@@ -35,7 +35,7 @@ choices = pulp.LpVariable.dicts("Choice", [(schedule, band) for schedule in mb_m
 # 制約条件を加える
 one_band_per_schedule(mb_manager, prob, choices)
 one_band_per_possible_schedule(mb_manager, prob, choices)
-close_schedule(1, mb_manager, prob, choices)
+close_schedule(1, mb_manager, prob, choices, lambda member: [name in member.name for name in ["ア", "イ", "ウ", "エ"]])
 
 # 目的関数を設定
 maxmize_band_gap(mb_manager, prob, choices)
