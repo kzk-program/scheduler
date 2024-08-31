@@ -45,21 +45,21 @@ close_schedule(1, mb_manager, prob, choices)
 maxmize_band_gap(mb_manager, prob, choices)
 
 #解く
-# max_exec_minutes = 30
-# print(prob.solve(pulp.PULP_CBC_CMD(60 * max_exec_minutes)))  # 1が出力されれば成功
+max_exec_minutes = 30
+print(prob.solve(pulp.PULP_CBC_CMD(60 * max_exec_minutes)))  # 1が出力されれば成功
 
-# # 解の並べ替えを取得
-# sorted_bands = []
-# for schedule in mb_manager.schedules:
-#   for band in mb_manager.bands:
-#     if pulp.value(choices[schedule, band]) == 1:
-#       sorted_bands.append(band)
+# 解の並べ替えを取得
+sorted_bands = []
+for schedule in mb_manager.schedules:
+  for band in mb_manager.bands:
+    if pulp.value(choices[schedule, band]) == 1:
+      sorted_bands.append(band)
 
-# # 並べ替え結果をCSVに出力する
-# with open(os.path.join(result_dir, 'sort.csv'), "w", newline='') as f:
-#   writer = csv.writer(f)
-#   writer.writerow([band.id for band in sorted_bands])
+# 並べ替え結果をCSVに出力する
+with open(os.path.join(result_dir, 'sort.csv'), "w", newline='') as f:
+  writer = csv.writer(f)
+  writer.writerow([band.id for band in sorted_bands])
 
-# # 解いた結果をCSVに出力する
-# output_schedule(os.path.join(result_dir, 'schedule.csv'), mb_manager, sorted_bands)
-# output_members_schedule(os.path.join(result_dir, 'members.csv'), mb_manager, sorted_bands)
+# 解いた結果をCSVに出力する
+output_schedule(os.path.join(result_dir, 'schedule.csv'), mb_manager, sorted_bands)
+output_members_schedule(os.path.join(result_dir, 'members.csv'), mb_manager, sorted_bands)
