@@ -6,20 +6,16 @@ from csv_parser import bands_parser
 from constraints import one_band_per_schedule, one_band_per_possible_schedule, close_schedule
 from target import maxmize_band_gap
 from output import output_schedule, output_members_schedule
+from settings import data_csv_name, result_dir_name, column_band_name, columns_possible_schedules, columns_members, columns_info
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))
-data_path = os.path.join(parent_dir, "data", "sample.csv")
-result_dir = os.path.join(parent_dir, "result", "sample")
+data_path = os.path.join(parent_dir, "data", data_csv_name)
+result_dir = os.path.join(parent_dir, "result", result_dir_name)
 os.makedirs(result_dir, exist_ok=True)
 
 
 mb_manager = MemberBandManager()
-
-column_band_name = 2
-columns_possible_schedules = list(range(9,14))
-columns_members = list(range(3,8))
-columns_info = [2,1,3,4,5,6,7,14]
 
 bands_parser(data_path, mb_manager, column_band_name, columns_possible_schedules, columns_members, columns_info)
 
