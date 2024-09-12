@@ -5,7 +5,7 @@ from manager import MemberBandManager
 from csv_parser import bands_parser
 from constraint import (
     one_band_per_schedule,
-    one_band_per_possible_schedule,
+    one_possible_schedule_per_band,
     close_schedule,
     Constraint,
     Constraints,
@@ -25,6 +25,21 @@ def solver(
     target: Target,
     constraints: Constraints,
 ):
+    """タイスケ組みをする
+
+    Args:
+        data_path (str): _description_
+        result_dir (str): _description_
+        column_band_name (int): _description_
+        columns_possible_schedules (List[int]): _description_
+        columns_members (List[int]): _description_
+        columns_info (List[int]): _description_
+        target (Target): _description_
+        constraints (Constraints): _description_
+
+    Output:
+        None (全て出力はファイルに書き込む)
+    """
     mb_manager = MemberBandManager()
     bands_parser(
         data_path,
@@ -48,20 +63,19 @@ def solver(
     )
 
     # 制約条件を加える
-    one_band_per_schedule(mb_manager, prob, choices)
-    one_band_per_possible_schedule(mb_manager, prob, choices)
     print(constraints.constraints)
     for constraint, value in constraints.constraints.items():
         if constraint == Constraint.ONE_BAND_PER_SCHEDULE:
             one_band_per_schedule(mb_manager, prob, choices)
-        if constraint == Constraint.ONE_BAND_PER_POSSIBLE_SCHEDULE:
-            one_band_per_possible_schedule(mb_manager, prob, choices)
+        if constraint == Constraint.ONE_POSSIBLE_SCHEDULE_PER_BAND:
+            one_possible_schedule_per_band(mb_manager, prob, choices)
 
         if constraint == Constraint.CLOSE_SCHEDULE:
             close_schedule(value["gap"], mb_manager, prob, choices)
 
     # 目的関数を設定
-    maxmize_band_gap(mb_manager, prob, choices)
+    if target == Target.MAXIMIZE_BAND_GAP:
+        maxmize_band_gap(mb_manager, prob, choices)
 
     # 解く
     max_exec_minutes = 30

@@ -1,11 +1,16 @@
-from typing import List
+from typing import List, Tuple
 import pandas as pd
 import Levenshtein
 import itertools
 
 
-# メンバー、バンド、タイムスケジュールの枠を管理するクラスを作る
 class Member:
+    """メンバーのクラス
+    id: メンバーのID (MemberBandManagerのmembersのインデックス)
+    name: メンバーの名前 (一意であることが前提 (期+本名を想定))
+    bands: メンバーが所属しているバンドのリスト
+    """
+
     def __init__(self, id: int, name: str) -> None:
         self.id: int = id
         self.name: str = name
@@ -13,12 +18,25 @@ class Member:
 
 
 class Schedule:
+    """スケジュールのクラス
+    id: スケジュールのID (MemberBandManagerのschedulesのインデックス)
+    name: スケジュールの名前 (例: 20:00-23:00 2)
+    """
+
     def __init__(self, id: int, name: str) -> None:
         self.id: int = id
         self.name: str = name
 
 
 class Band:
+    """バンドのクラス
+    id: バンドのID (MemberBandManagerのbandsのインデックス)
+    name: バンドの名前
+    members: バンドに所属しているメンバーのリスト
+    possible_schedule: バンドが出演可能なスケジュールのリスト
+    info: バンドの情報 (出力CSVに表示したい情報)
+    """
+
     def __init__(
         self,
         id: int,
@@ -40,7 +58,7 @@ class MemberBandManager:
         self.members: List[Member] = []
         self.bands: List[Band] = []
         self.schedules: List[Schedule] = []
-        
+
     def get_band(self, id: int) -> Band:
         return self.bands[id]
 
@@ -106,6 +124,7 @@ class MemberBandManager:
         # 2つのバンド間で同じメンバーがいるかチェックする関数
 
     def contain_same_member(self, band1: Band, band2: Band) -> bool:
+        """2つのバンド間で同じメンバーがいるかチェックする"""
         for member1 in band1.members:
             for member2 in band2.members:
                 if member1 is member2:
@@ -113,6 +132,7 @@ class MemberBandManager:
         return False
 
     def same_member(self, band1: Band, band2: Band) -> List[Member]:
+        """2つのバンド間の同じメンバーを取得する"""
         same_members = []
         for member1 in band1.members:
             for member2 in band2.members:
@@ -120,7 +140,12 @@ class MemberBandManager:
                     same_members.append(member1)
         return same_members
 
-    def similar_member_name(self) -> List[str]:
+    def similar_member_name(self) -> List[Tuple[str]]:
+        """メンバー名が似ているメンバーの組を取得する
+
+        Returns:
+            List[Tuple[str]]: 似ているメンバーの組のリスト
+        """
         simliar_members = []
         for member1, member2 in itertools.combinations(self.members, 2):
             if Levenshtein.distance(member1.name, member2.name) <= 2:

@@ -5,12 +5,13 @@ from enum import Enum
 
 class Target(Enum):
     MAXIMIZE_BAND_GAP = 1
-    EARLY_FINISH = 2
 
 
 def maxmize_band_gap(
     mb_manager: MemberBandManager, prob: pulp.LpProblem, choices: dict
 ) -> None:
+    """バンドの出演間隔を最大化する目的関数を追加する
+    """
     # TODO
     penalties = []
     for member in mb_manager.members:

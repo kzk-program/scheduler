@@ -32,6 +32,13 @@ def gap_between_bands(
 def output_schedule(
     output_csv: str, mb_manager: MemberBandManager, sorted_bands: List[Band]
 ) -> None:
+    """組んだタイスケをCSVに出力する
+
+    Args:
+        output_csv (str): 出力先のCSVファイルへのパス
+        mb_manager (MemberBandManager): メンバー、バンド、スケジュールの情報を持つクラス
+        sorted_bands (List[Band]): スケジュール順に並べ替えられたバンドのリスト
+    """
     with open(output_csv, "w", newline="") as f:
         writer = csv.writer(f)
         writer.writerow(["時刻"] + list(sorted_bands[0].info.keys()))
@@ -48,6 +55,13 @@ def output_schedule(
 def output_members_schedule(
     output_csv: str, mb_manager: MemberBandManager, sorted_bands: List[int]
 ) -> None:
+    """組んだタイスケのメンバーごとの出番表をCSVに出力する
+
+    Args:
+        output_csv (str): 出力先のCSVファイルへのパス
+        mb_manager (MemberBandManager): メンバー、バンド、スケジュールの情報を持つクラス
+        sorted_bands (List[int]): スケジュール順に並べ替えられたバンドのリスト
+    """
     with open(output_csv, "w", newline="") as f:
         writer = csv.writer(f)
         writer.writerow([""] + [schedule.name for schedule in mb_manager.schedules])

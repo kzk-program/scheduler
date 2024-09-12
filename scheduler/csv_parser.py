@@ -11,7 +11,16 @@ def bands_parser(
     columns_members: List[int],
     columns_info: List[int],
 ) -> None:
-    # バンドを並べ替えたい時用　(CL、OLなど)
+    """CSVファイルを読み込んでバンド情報をmb_managerにセットする
+
+    Args:
+        csv_file (str): バンド情報が記載されたCSVファイルへのパス
+        mb_manager (MemberBandManager): メンバー、バンド、スケジュールの情報を持つクラス（初期化直後を想定）
+        column_band_name (int): バンド名が記載されている列のインデックス
+        columns_possible_schedules (List[int]): バンドが出演可能なスケジュールが記載されている列のインデックスのリスト
+        columns_members (List[int]): バンドのメンバーが記載されている列のインデックスのリスト
+        columns_info (List[int]): バンドの情報 (出力CSVファイルに記載されていてほしい情報) が記載されている列のインデックスのリスト
+    """
     df = pd.read_csv(csv_file)
 
     # スケジュール枠をセットする
