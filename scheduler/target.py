@@ -1,7 +1,13 @@
 import pulp
 import typing
 import itertools
-from managers import MemberBandManager
+from manager import MemberBandManager
+from enum import Enum
+
+class Target(Enum):
+    MAXIMIZE_BAND_GAP = 1
+    EARLY_FINISH = 2
+
 
 def maxmize_band_gap(mb_manager: MemberBandManager, prob: pulp.LpProblem, choices: dict) -> None:
     # TODO

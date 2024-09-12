@@ -1,4 +1,4 @@
-from managers import Band, MemberBandManager
+from manager import Band, MemberBandManager
 import matplotlib.pyplot as plt
 import csv
 import pandas as pd

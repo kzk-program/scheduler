@@ -1,7 +1,21 @@
 import pulp
 import itertools
-from managers import MemberBandManager, Member
-from typing import Callable
+from manager import MemberBandManager, Member
+from typing import Dict, Callable
+from enum import Enum
+
+class Constraint(Enum):
+    ONE_BAND_PER_SCHEDULE = 1
+    ONE_BAND_PER_POSSIBLE_SCHEDULE = 2
+    CLOSE_SCHEDULE = 3
+
+class Constraints:
+    def __init__(self):
+        self.constraints:Dict[Constraint] = dict()
+    
+    def add(self, constraint: Constraint, value: dict):
+        self.constraints[constraint] = value
+
 
 def one_band_per_schedule(mb_manager: MemberBandManager, prob: pulp.LpProblem, choices:dict) -> None:
     for schedule in mb_manager.schedules:

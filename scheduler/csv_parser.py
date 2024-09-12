@@ -1,5 +1,5 @@
 import pandas as pd
-from managers import Member, Band, Schedule, MemberBandManager
+from manager import Member, Band, Schedule, MemberBandManager
 from typing import Type, List
 
 def bands_parser(csv_file:str, mb_manager:MemberBandManager, column_band_name: int, columns_possible_schedules: List[int], columns_members: List[int], columns_info: List[int])->None:

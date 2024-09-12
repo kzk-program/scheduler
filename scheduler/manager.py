@@ -103,7 +103,7 @@ class MemberBandManager:
           same_members.append(member1)
     return same_members
   
-  def simliar_member_name(self) -> List[str]:
+  def similar_member_name(self) -> List[str]:
     simliar_members = []
     for member1, member2 in itertools.combinations(self.members, 2):
       if Levenshtein.distance(member1.name, member2.name) <= 2:

@@ -2,5 +2,5 @@
 !/data/sample.csv
 /result/*
 !/result/sample/
-/src/__pycache__
-/src/re_output.py
+/scheduler/__pycache__
+/.venv/
