@@ -4,32 +4,54 @@ from manager import MemberBandManager, Member
 from typing import Dict, Callable
 from enum import Enum
 
+
 class Constraint(Enum):
     ONE_BAND_PER_SCHEDULE = 1
     ONE_BAND_PER_POSSIBLE_SCHEDULE = 2
     CLOSE_SCHEDULE = 3
 
+
 class Constraints:
     def __init__(self):
-        self.constraints:Dict[Constraint] = dict()
-    
+        self.constraints: Dict[Constraint] = dict()
+
     def add(self, constraint: Constraint, value: dict):
         self.constraints[constraint] = value
 
 
-def one_band_per_schedule(mb_manager: MemberBandManager, prob: pulp.LpProblem, choices:dict) -> None:
+def one_band_per_schedule(
+    mb_manager: MemberBandManager, prob: pulp.LpProblem, choices: dict
+) -> None:
     for schedule in mb_manager.schedules:
         prob += pulp.lpSum([choices[schedule, band] for band in mb_manager.bands]) == 1
 
-def one_band_per_possible_schedule(mb_manager: MemberBandManager, prob:pulp.LpProblem, choices:dict) -> None:
+
+def one_band_per_possible_schedule(
+    mb_manager: MemberBandManager, prob: pulp.LpProblem, choices: dict
+) -> None:
     for band in mb_manager.bands:
-        prob += pulp.lpSum([choices[possible_schedule, band] for possible_schedule in band.possible_schedule]) == 1
+        prob += (
+            pulp.lpSum(
+                [
+                    choices[possible_schedule, band]
+                    for possible_schedule in band.possible_schedule
+                ]
+            )
+            == 1
+        )
         for schedule in mb_manager.schedules:
-            if not schedule in band.possible_schedule:
+            if schedule not in band.possible_schedule:
                 prob += choices[schedule, band] == 0
 
-def close_schedule(gap: int, mb_manager: MemberBandManager, prob:pulp.LpProblem, choices:dict, target_member_condition: Callable[[Member], bool] = (lambda member: True)) -> None:
-    close_schedules = [] # 間隔がgap以下のスケジュールの組を格納
+
+def close_schedule(
+    gap: int,
+    mb_manager: MemberBandManager,
+    prob: pulp.LpProblem,
+    choices: dict,
+    target_member_condition: Callable[[Member], bool] = (lambda member: True),
+) -> None:
+    close_schedules = []  # 間隔がgap以下のスケジュールの組を格納
     for schedule1, schedule2 in itertools.combinations(mb_manager.schedules, 2):
         if abs(schedule1.id - schedule2.id) <= gap:
             close_schedules.append((schedule1, schedule2))
@@ -41,5 +63,11 @@ def close_schedule(gap: int, mb_manager: MemberBandManager, prob:pulp.LpProblem,
                 break
         if contain_same_target_member:
             for schedule1, schedule2 in close_schedules:
-                prob += pulp.lpSum([choices[schedule1, band1], choices[schedule2, band2]]) <= 1
-                prob += pulp.lpSum([choices[schedule1, band2], choices[schedule2, band1]]) <= 1
+                prob += (
+                    pulp.lpSum([choices[schedule1, band1], choices[schedule2, band2]])
+                    <= 1
+                )
+                prob += (
+                    pulp.lpSum([choices[schedule1, band2], choices[schedule2, band1]])
+                    <= 1
+                )
