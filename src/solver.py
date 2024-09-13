@@ -1,17 +1,17 @@
 import os
 import csv
 import pulp
-from manager import MemberBandManager
-from csv_parser import bands_parser
-from constraint import (
+from .manager import MemberBandManager
+from .csv_parser import bands_parser
+from .constraint import (
     one_band_per_schedule,
     one_possible_schedule_per_band,
     close_schedule,
     Constraint,
     Constraints,
 )
-from target import maxmize_band_gap, Target
-from output import output_schedule, output_members_schedule
+from .target import maxmize_band_gap, Target
+from .output import output_schedule, output_members_schedule
 from typing import List
 
 
@@ -100,7 +100,7 @@ def solver(
     )
 
 
-def similar_name(data_path: str):
+def similar_name(data_path: str, column_band_name: int, columns_possible_schedules: List[int], columns_members: List[int], columns_info: List[int]) -> List[str]:
     mb_manager = MemberBandManager()
     bands_parser(
         data_path,
@@ -111,40 +111,3 @@ def similar_name(data_path: str):
         columns_info,
     )
     return mb_manager.similar_member_name()
-
-
-if __name__ == "__main__":
-    current_dir = os.path.dirname(os.path.abspath(__file__))
-    parent_dir = os.path.abspath(os.path.join(current_dir, os.pardir))
-    data_path = os.path.join(parent_dir, "data", "sample.csv")
-    result_dir = os.path.join(parent_dir, "result", "sample")
-    os.makedirs(result_dir, exist_ok=True)
-    constraints = Constraints()
-    constraints.add(Constraint.ONE_BAND_PER_SCHEDULE, {})
-    constraints.add(Constraint.ONE_POSSIBLE_SCHEDULE_PER_BAND, {})
-    constraints.add(Constraint.CLOSE_SCHEDULE, {"gap": 1})
-    column_band_name = 2
-    columns_possible_schedules = list(range(9, 14))
-    columns_members = list(range(3, 8))
-    columns_info = [2, 1, 3, 4, 5, 6, 7, 14]
-
-    for member1, member2 in similar_name(data_path):
-        print(
-            f"{member1}と{member2}は似た名前です。無視して別人として続けますか？(y/n)"
-        )
-        answer = input()
-        if answer == "y":
-            continue
-        else:
-            exit()
-
-    solver(
-        data_path,
-        result_dir,
-        column_band_name,
-        columns_possible_schedules,
-        columns_members,
-        columns_info,
-        Target.MAXIMIZE_BAND_GAP,
-        constraints,
-    )

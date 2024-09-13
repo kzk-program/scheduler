@@ -1,5 +1,5 @@
 import pulp
-from manager import MemberBandManager
+from .manager import MemberBandManager
 from enum import Enum
 
 

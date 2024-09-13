@@ -1,6 +1,6 @@
 import pulp
 import itertools
-from manager import MemberBandManager, Member
+from .manager import MemberBandManager, Member
 from typing import Dict, Callable
 from enum import Enum
 

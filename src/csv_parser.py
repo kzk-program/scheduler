@@ -1,5 +1,5 @@
 import pandas as pd
-from manager import MemberBandManager
+from .manager import MemberBandManager
 from typing import List
 
 
