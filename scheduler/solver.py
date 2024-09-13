@@ -121,7 +121,7 @@ if __name__ == "__main__":
     os.makedirs(result_dir, exist_ok=True)
     constraints = Constraints()
     constraints.add(Constraint.ONE_BAND_PER_SCHEDULE, {})
-    constraints.add(Constraint.ONE_BAND_PER_POSSIBLE_SCHEDULE, {})
+    constraints.add(Constraint.ONE_POSSIBLE_SCHEDULE_PER_BAND, {})
     constraints.add(Constraint.CLOSE_SCHEDULE, {"gap": 1})
     column_band_name = 2
     columns_possible_schedules = list(range(9, 14))
