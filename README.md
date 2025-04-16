@@ -104,6 +104,10 @@ python3 test_solver.py --cfg config/xxx_YOUR_YAML_FILE_xxx.yaml
 ### 4. 出力を確認する
 2で指定した出力ディレクトリの中に、member.csv, schedule.csv. sort.csvがあることを確認する。member.csvとschedule.csvをダウンロードしてGoogleスプレッドシートで開いて、結果を確認しましょう。
 
+## 注意
+pulpという線形最適化問題ソルバーを使っています。pulpは自動でマルチスレッド処理をするので、Ctrl+Cをしても止まらなくなります。
+マルチコアのCPUを使うと速く解けます。 (Google Colabでやるとめっちゃ遅いです)
+
 ## 製作者
 使い方に関する質問、バグ報告、新機能希望、プルリク相談などあれば、27期 たかし まで！
 
