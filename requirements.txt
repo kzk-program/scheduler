@@ -2,6 +2,7 @@ numpy
 pandas
 pulp
 typing
+itertools
 Levenshtein
 matplotlib
 pyyaml
