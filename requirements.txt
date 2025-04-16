@@ -4,3 +4,4 @@ pulp
 typing
 Levenshtein
 matplotlib
+pyyaml

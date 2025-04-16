@@ -89,13 +89,14 @@ pip install -r requirements.txt
 データ形式の詳細は「入力データのフォーマット」を参照。
 
 ### 2. 設定を入力する
-settings.yamlファイルをいじり、必要な情報を入力する。
+configディレクトリの中にyamlファイルを作る (例はconfig/sample.yaml)。
+
 ### 3. 実行する
 ターミナルのディレクトリがschedulerになっていること、頭に(,venv)がついていることを確認し、
 ```
-python3 test_solver.py
+python3 test_solver.py --cfg config/xxx_YOUR_YAML_FILE_xxx.yaml
 ```
-と入力する。
+と入力する。```xxx_YOUR_YAML_FILE_xxx```の部分は2で作ったyamlファイル名を入力する。
 大量のログが出てき、時間はかかるが、最大実行時間以内に終了します。
 
 

@@ -2,15 +2,27 @@ import os
 from src.solver import solver, similar_name
 from src.constraint import Constraints, Constraint
 from src.target import Target
+import argparse
+import yaml
+
+parser = argparse.ArgumentParser()
+parser.add_argument(
+    "--cfg", type=str, default="config/sample.yaml", help="Path to the config file"
+)
+args = parser.parse_args()
+
+with open(args.cfg, "r") as f:
+    config = yaml.safe_load(f)
+
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
-data_path = os.path.join(current_dir, "data", "sample.csv")
-result_dir = os.path.join(current_dir, "result", "sample")
+data_path = config["data_path"]
+result_dir = config["result_dir"]
 os.makedirs(result_dir, exist_ok=True)
-column_band_name = 2
-columns_possible_schedules = list(range(9, 14))
-columns_members = list(range(3, 8))
-columns_info = [2, 1, 3, 4, 5, 6, 7, 14]
+column_band_name = config["column"]["band_name"]
+columns_possible_schedules = config["column"]["possible_schedules"]
+columns_members = config["column"]["members"]
+columns_info = config["column"]["info"]
 
 for member1, member2 in similar_name(data_path, column_band_name, columns_possible_schedules, columns_members, columns_info):
     print(
@@ -25,7 +37,11 @@ for member1, member2 in similar_name(data_path, column_band_name, columns_possib
 constraints = Constraints()
 constraints.add(Constraint.ONE_BAND_PER_SCHEDULE, {})
 constraints.add(Constraint.ONE_POSSIBLE_SCHEDULE_PER_BAND, {})
-constraints.add(Constraint.CLOSE_SCHEDULE, {"gap": 1})
+if config["constraint"]["close_schedule"]["active"]:
+    constraints.add(Constraint.CLOSE_SCHEDULE, {"gap": config["constraint"]["close_schedule"]["gap"]})
+
+if config["target"] == 1:
+    target = Target.MAXIMIZE_BAND_GAP
 
 solver(
     data_path,
@@ -34,6 +50,6 @@ solver(
     columns_possible_schedules,
     columns_members,
     columns_info,
-    Target.MAXIMIZE_BAND_GAP,
+    target,
     constraints,
 )
