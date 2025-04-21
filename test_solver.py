@@ -24,7 +24,7 @@ columns_possible_schedules = config["column"]["possible_schedules"]
 columns_members = config["column"]["members"]
 columns_info = config["column"]["info"]
 
-for member1, member2 in similar_name(data_path, column_band_name, columns_possible_schedules, columns_members, columns_info):
+for member1, member2 in similar_name(data_path, columns_members):
     print(
         f"{member1}と{member2}は似た名前です。無視して別人として続けますか？(y/n)"
     )

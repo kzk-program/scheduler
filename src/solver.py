@@ -100,14 +100,14 @@ def solver(
     )
 
 
-def similar_name(data_path: str, column_band_name: int, columns_possible_schedules: List[int], columns_members: List[int], columns_info: List[int]) -> List[str]:
+def similar_name(data_path: str, columns_members: List[int]) -> List[str]:
     mb_manager = MemberBandManager()
     bands_parser(
         data_path,
         mb_manager,
-        column_band_name,
-        columns_possible_schedules,
+        0,
+        [],
         columns_members,
-        columns_info,
+        [],
     )
     return mb_manager.similar_member_name()
