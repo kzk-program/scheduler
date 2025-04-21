@@ -30,10 +30,10 @@ def bands_parser(
     for row_index in df.index:
         row = df.loc[row_index]
         possible_schedules_id = []
+        info = row.iloc[columns_info]
         for column in columns_possible_schedules:
             if row.iloc[column] == 1:
                 possible_schedules_id.append(columns_possible_schedules.index(column))
-                info = row.iloc[columns_info]
         mb_manager.add_band(
             row.iloc[column_band_name],
             [
