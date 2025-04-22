@@ -6,3 +6,5 @@
 !/result/sample/
 /src/__pycache__
 /.venv/
+*.ipynb
+!csv_formatter.ipynb
