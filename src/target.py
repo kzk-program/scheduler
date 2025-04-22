@@ -5,28 +5,30 @@ from enum import Enum
 
 class Target(Enum):
     MAXIMIZE_BAND_GAP = 1
+    EARLY_FINISH = 2
 
 
 def maxmize_band_gap(
     mb_manager: MemberBandManager, prob: pulp.LpProblem, choices: dict
 ) -> None:
-    """バンドの出演間隔を最大化する目的関数を追加する
+    """バンドの出演間隔を最大化する目的関数
     """
-    # TODO
     penalties = []
     for member in mb_manager.members:
-        penalties += [
-            3 * choices[mb_manager.schedules[i + j], band]
-            for j in range(3)
-            for i in range(len(mb_manager.schedules) - 2)
-            for band in member.bands
-        ] + [
-            choices[mb_manager.schedules[i + j], band]
-            for j in range(4)
-            for i in range(len(mb_manager.schedules) - 3)
-            for band in member.bands
-        ]
-    prob += pulp.lpSum(penalties)
+        for gap in range(len(mb_manager.schedules) - 2): # 全スケジュール合計で2バンド以上あるのはどうしようもないのでペナルティに入れず、gap == len(schedules) - 2は除外する
+            for start_idx in range(len(mb_manager.schedules) - gap - 1): #gap=0, start_idx=0なら、schedule_id=0と1にその人が所属するバンドが2バンドあるとペナルティがつく
+                v = pulp.LpVariable(
+                    f"{member.name}_{gap}_{start_idx}",
+                    cat=pulp.LpBinary,
+                )
+                prob += v >= pulp.lpSum(
+                    choices[mb_manager.schedules[start_idx + i], band]
+                    for i in range(gap + 2)
+                    for band in member.bands
+                ) - 1
+                penalties.append(v)
+    prob += pulp.lpSum(penalties)  # 目的関数を追加
+
 
 
 def early_finish(
