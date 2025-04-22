@@ -83,22 +83,36 @@ def close_schedule(
         choices (dict): pulpの変数
         target_member_condition (_type_, optional): 対象になるメンバーの条件 Defaults to (lambda member: True).
     """
-    for band1, band2 in itertools.combinations(mb_manager.bands, 2):
-        contain_same_target_member = False
-        for member in mb_manager.same_member(band1, band2):
-            if target_member_condition(member):
-                contain_same_target_member = True
-                break
-        if contain_same_target_member:
-            for i in range(len(mb_manager.schedules) - gap):
+    # for band1, band2 in itertools.combinations(mb_manager.bands, 2):
+    #     contain_same_target_member = False
+    #     for member in mb_manager.same_member(band1, band2):
+    #         if target_member_condition(member):
+    #             contain_same_target_member = True
+    #             break
+    #     if contain_same_target_member:
+    #         for i in range(len(mb_manager.schedules) - gap):
+    #             prob += (
+    #                 pulp.lpSum(
+    #                     [
+    #                         choices[mb_manager.schedules[i + j], band1]
+    #                         for j in range(gap + 1)
+    #                     ] + [
+    #                         choices[mb_manager.schedules[i + j], band2]
+    #                         for j in range(gap + 1)
+    #                     ]
+    #                 )
+    #                 <= 1
+    #             )
+
+    for member in mb_manager.members:
+        if target_member_condition(member):
+            for start_idx in range(len(mb_manager.schedules) - gap):
                 prob += (
                     pulp.lpSum(
                         [
-                            choices[mb_manager.schedules[i + j], band1]
+                            choices[mb_manager.schedules[start_idx + j], band]
                             for j in range(gap + 1)
-                        ] + [
-                            choices[mb_manager.schedules[i + j], band2]
-                            for j in range(gap + 1)
+                            for band in member.bands
                         ]
                     )
                     <= 1
