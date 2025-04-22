@@ -1,5 +1,7 @@
 /data/*
 !/data/sample.csv
+/raw_data/*
+!/raw_data/sample.csv
 /result/*
 !/result/sample/
 /src/__pycache__
