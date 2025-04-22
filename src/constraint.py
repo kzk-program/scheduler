@@ -31,7 +31,7 @@ class Constraints:
 def one_band_per_schedule(
     mb_manager: MemberBandManager, prob: pulp.LpProblem, choices: dict
 ) -> None:
-    """1つのスケジュールに入れるバンドは1つだけにする制約条件を追加する
+    """1つのスケジュールに入れるバンドは最大1つだけにする制約条件を追加する
 
     Args:
         mb_manager (MemberBandManager): メンバー、バンド、スケジュールの情報を持つクラス
@@ -39,7 +39,7 @@ def one_band_per_schedule(
         choices (dict): pulpの変数
     """
     for schedule in mb_manager.schedules:
-        prob += pulp.lpSum([choices[schedule, band] for band in mb_manager.bands]) == 1
+        prob += pulp.lpSum([choices[schedule, band] for band in mb_manager.bands]) <= 1
 
 
 def one_possible_schedule_per_band(

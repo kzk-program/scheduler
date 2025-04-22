@@ -84,14 +84,17 @@ def solver(
     # 解の並べ替えを取得
     sorted_bands = []
     for schedule in mb_manager.schedules:
+        result_band = None
         for band in mb_manager.bands:
             if pulp.value(choices[schedule, band]) == 1:
-                sorted_bands.append(band)
+                result_band = band
+                break
+        sorted_bands.append(result_band)
 
     # 並べ替え結果をCSVに出力する
     with open(os.path.join(result_dir, "sort.csv"), "w", newline="") as f:
         writer = csv.writer(f)
-        writer.writerow([band.id for band in sorted_bands])
+        writer.writerow([band.id if band else -1 for band in sorted_bands])
 
     # 解いた結果をCSVに出力する
     output_schedule(os.path.join(result_dir, "schedule.csv"), mb_manager, sorted_bands)

@@ -41,8 +41,11 @@ def output_schedule(
     """
     with open(output_csv, "w", newline="") as f:
         writer = csv.writer(f)
-        writer.writerow(["時刻"] + list(sorted_bands[0].info.keys()))
+        writer.writerow(["時刻"] + list(mb_manager.bands[0].info.keys()))
         for i, schedule in enumerate(mb_manager.schedules):
+            if sorted_bands[i] is None:
+                writer.writerow([schedule.name] + ["休み"])
+                continue
             writer.writerow(
                 [schedule.name]
                 + [
@@ -65,11 +68,11 @@ def output_members_schedule(
     with open(output_csv, "w", newline="") as f:
         writer = csv.writer(f)
         writer.writerow([""] + [schedule.name for schedule in mb_manager.schedules])
-        writer.writerow([""] + [band.name for band in sorted_bands])
+        writer.writerow([""] + [band.name if band else "休み" for band in sorted_bands])
         for member in mb_manager.members:
             bands_id = [band.id for band in member.bands]
             row = [member.name]
-            for band_id in [band.id for band in sorted_bands]:
+            for band_id in [band.id if band else None for band in sorted_bands]:
                 if band_id in bands_id:
                     row.append("〇")
                 else:
