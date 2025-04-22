@@ -34,17 +34,18 @@ def maxmize_band_gap(
 def early_finish(
     mb_manager: MemberBandManager, prob: pulp.LpProblem, choices: dict
 ) -> None:
-    """これはエラーを吐くので使えない"""
+    """なるべく多くの人がなるべく早く終われるようにする
+    OLでみんな早く寝れるようにするときに使う
+    最後の方が同じ人ばっかりになる可能性があるのに注意
+    """
     finish_ids = []
     for member in mb_manager.members:
-        finish_id = 0
+        finish_id = pulp.LpVariable(
+            f"{member.name}_finish_id",
+            lowBound=0,
+            cat=pulp.LpInteger,
+        )
         for i, schedule in enumerate(mb_manager.schedules):
-            temp = i * pulp.lpSum([choices[schedule, band] for band in member.bands])
-            for j in range(i + 1, len(mb_manager.schedules)):
-                for band in member.bands:
-                    # if else を 乗算に変換
-                    # 非線形最適化になるからPulpは使えない
-                    temp *= 1 - choices[mb_manager.schedules[j], band]
-            finish_id += temp
+            prob += finish_id >=  i * pulp.lpSum([choices[schedule, band] for band in member.bands])
         finish_ids.append(finish_id)
     prob += pulp.lpSum(finish_ids)

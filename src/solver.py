@@ -10,7 +10,7 @@ from .constraint import (
     Constraint,
     Constraints,
 )
-from .target import maxmize_band_gap, Target
+from .target import maxmize_band_gap, Target, early_finish
 from .output import output_schedule, output_members_schedule
 from typing import List
 
@@ -76,6 +76,8 @@ def solver(
     # 目的関数を設定
     if target == Target.MAXIMIZE_BAND_GAP:
         maxmize_band_gap(mb_manager, prob, choices)
+    elif target == Target.EARLY_FINISH:
+        early_finish(mb_manager, prob, choices)
 
     # 解く
     max_exec_minutes = 30

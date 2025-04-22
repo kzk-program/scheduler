@@ -42,6 +42,8 @@ if config["constraint"]["close_schedule"]["active"]:
 
 if config["target"] == 1:
     target = Target.MAXIMIZE_BAND_GAP
+elif config["target"] == 2:
+    target = Target.EARLY_FINISH
 
 solver(
     data_path,
